@@ -14,6 +14,8 @@ client_secret = configuration.CLIENT_SECRET
 
 @app.get("/callback")
 async def callback(code:str, state: str):
+    if len(code) < 1 or len(state) < 1:
+        raise HTTPException(status_code=401, detail="Unauthorized. Invalid parameters")
     if state != session_state.SESSION_SECRET:
         raise HTTPException(status_code=401, detail="Unauthorized. Invalid session token")
     async with httpx.AsyncClient() as client:
@@ -26,11 +28,18 @@ async def callback(code:str, state: str):
             "code": code
         }
         oauth_access_token = await client.post(f"https://github.com/login/oauth/access_token", json=auth_data, headers=headers)
-        access_token = oauth_access_token.json()["access_token"]
-        return await get_repositories(token=access_token)
+        try:
+            access_token = oauth_access_token.json()["access_token"]
+            return await get_repositories(token=access_token)
+        except KeyError:
+            raise HTTPException(401, detail="Unauthorized. The code passed is incorrect or expired")
 
 @app.get("/")
 async def index():
+    """Redirects to GitHub's OAuth page for user authentication.
+    Using public_repo scope for read-only access to public repositories.
+    Creating a random session state secret to prevent CSRF attacks.
+    """
     session_state.SESSION_SECRET = RandomStringGenerator().generate_random_string(45)
     scope = "public_repo"
     state=session_state.SESSION_SECRET
@@ -41,6 +50,8 @@ async def index():
         "client_id": client_id
         }
         response = await client.get(f"https://github.com/login/oauth/authorize", params=params)
+        if response.status_code != 302:
+            raise HTTPException(status_code=404, detail="Unable to reach authentication page. Recheck parameters")
         return RedirectResponse(response.url)
 
 async def get_repositories(token:str):
