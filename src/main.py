@@ -34,8 +34,14 @@ async def index():
     session_state.SESSION_SECRET = RandomStringGenerator().generate_random_string(45)
     scope = "public_repo"
     state=session_state.SESSION_SECRET
-    github_oauth_url = f"https://github.com/login/oauth/authorize?client_id={client_id}&X-OAuth-Scopes={scope}&X-Accepted-OAuth-Scopes={scope}&state={state}"
-    return RedirectResponse(url=github_oauth_url)
+    async with httpx.AsyncClient() as client:
+        params = {
+        "scope": scope,
+        "state": state,
+        "client_id": client_id
+        }
+        response = await client.get(f"https://github.com/login/oauth/authorize", params=params)
+        return RedirectResponse(response.url)
 
 async def get_repositories(token:str):
     async with httpx.AsyncClient() as client:

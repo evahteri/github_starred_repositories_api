@@ -2,3 +2,4 @@ exercise.md
 venv
 test_user_config.py
 .env
+__pycache__
