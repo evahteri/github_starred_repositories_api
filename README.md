@@ -20,3 +20,7 @@ TODO
 
 ## Example
 TODO
+
+## References/sources used for development
+
+- [Creating async requests to external API's with FastAPI (geeksforgeeks)](https://www.geeksforgeeks.org/making-http-requests-from-a-fastapi-application-to-an-external-api/)
