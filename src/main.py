@@ -3,12 +3,13 @@ from fastapi.responses import RedirectResponse
 from services.random_string_generator import RandomStringGenerator
 from dotenv import dotenv_values
 from services.config_validator import ConfigValidator
+from services.starred_repos_parser import StarredReposParser
 import session_state
 import configuration
 import httpx
 import uvicorn
 
-app = FastAPI()    
+app = FastAPI()
 client_id = configuration.CLIENT_ID
 client_secret = configuration.CLIENT_SECRET
 
@@ -62,7 +63,7 @@ async def get_repositories(token:str):
         "X-GitHub-Api-Version": "2022-11-28"
         }
         starred_repositories = await client.get(f"https://api.github.com/user/starred", headers=headers)
-        return starred_repositories.json()
+        return StarredReposParser(starred_repos=starred_repositories.json()).get_starred_repos_response()
 
 if __name__ == "__main__":
     if not ConfigValidator().validate_secrets():
