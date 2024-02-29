@@ -18,13 +18,13 @@ The API retrieves user's starred repositories from Github and displays the numbe
 
 ### Running
 - Start server in src folder with ```python3 main.py```
-- Create a GET request to ```http://localhost:8000/``` to retrieve data
+- Create a GET request to ```http://localhost:8000/```
 - Sign in with Github credentials
 - The application will use the token to fetch starred repositories
 - Shut down the server from command line with CTRL + C
 
 ### Testing
-TODO
+- Run tests in root folder with ```pytest```
 
 ## Example
 TODO

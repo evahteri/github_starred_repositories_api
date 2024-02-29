@@ -1,9 +1,7 @@
-import configuration
-
 class ConfigValidator:
-    def __init__(self):
-        self.client_id = configuration.CLIENT_ID
-        self.client_secret = configuration.CLIENT_SECRET
+    def __init__(self, client_id:str, client_secret:str):
+        self.client_id = client_id
+        self.client_secret = client_secret
 
     
     def validate_secrets(self):
