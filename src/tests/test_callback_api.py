@@ -2,7 +2,6 @@ import pytest
 from httpx import AsyncClient, ASGITransport
 from main import app
 import session
-import test_configuration
 
 session.ENVIRONMENT = "test"
 
