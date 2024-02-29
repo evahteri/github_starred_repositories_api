@@ -1,2 +1,2 @@
-SESSION_SECRET=""
-ENVIRONMENT="production"
+SESSION_SECRET = ""
+ENVIRONMENT = "production"

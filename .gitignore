@@ -3,3 +3,5 @@ venv
 test_user_config.py
 .env
 __pycache__
+.pytest_cache
+.mypy_cache
