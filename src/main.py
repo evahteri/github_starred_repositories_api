@@ -84,6 +84,8 @@ async def get_repositories(token: str):
                                   ).get_starred_repos_response()
 
 if __name__ == "__main__":
+    client_id = configuration.CLIENT_ID
+    client_secret = configuration.CLIENT_SECRET
     if not ConfigValidator(client_id=client_id, client_secret=client_secret).validate_secrets():
         raise ValueError(
             "Invalid configuration. Follow instructions in README to configure the application")
