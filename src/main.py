@@ -6,17 +6,21 @@ from services.config_validator import ConfigValidator
 from services.starred_repos_parser import StarredReposParser
 import session
 import configuration
+import test_configuration
 import httpx
 import uvicorn
 
 app = FastAPI()
 client_id = configuration.CLIENT_ID
 client_secret = configuration.CLIENT_SECRET
+if session.ENVIRONMENT == "test":
+    client_id = test_configuration.CLIENT_ID
+    client_secret = test_configuration.CLIENT_SECRET
 
 @app.get("/callback")
 async def callback(code:str, state: str):
     if len(code) < 1 or len(state) < 1:
-        raise HTTPException(status_code=401, detail="Unauthorized. Invalid parameters")
+        raise HTTPException(status_code=422, detail="Unprocessable Entity. Invalid parameters")
     if state != session.SESSION_SECRET:
         raise HTTPException(status_code=401, detail="Unauthorized. Invalid session token")
     async with httpx.AsyncClient() as client:
@@ -28,9 +32,11 @@ async def callback(code:str, state: str):
             "client_secret": client_secret,
             "code": code
         }
-        oauth_access_token = await client.post(f"https://github.com/login/oauth/access_token", json=auth_data, headers=headers)
+        oauth_response = await client.post(f"https://github.com/login/oauth/access_token", json=auth_data, headers=headers)
+        if "error" in oauth_response.json() or oauth_response.status_code != 200:
+            raise HTTPException(401, detail="Unauthorized. The code passed is incorrect or expired")
         try:
-            access_token = oauth_access_token.json()["access_token"]
+            access_token = oauth_response.json()["access_token"]
             return await get_repositories(token=access_token)
         except KeyError:
             raise HTTPException(401, detail="Unauthorized. The code passed is incorrect or expired")

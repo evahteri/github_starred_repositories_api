@@ -27,7 +27,6 @@ async def test_put_index_response_code():
 async def test_get_index_creates_GET_request():
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
         response = await ac.get("/")
-        print(response.next_request.method)
         assert response.next_request.method == "GET"
 
 # Test that the index route creates a GET request to the correct URL
