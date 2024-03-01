@@ -6,6 +6,7 @@ class RandomStringGenerator:
     """Generating random strings, used for session secrets in the application.
     Inspiration taken from reference 1 (see README)
     """
+
     def generate_random_string(self, length: int) -> str:
         if length <= 0:
             raise ValueError(

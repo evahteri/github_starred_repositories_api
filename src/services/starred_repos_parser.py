@@ -4,6 +4,7 @@ from models.starred_repo_model import StarredRepoModel
 class StarredReposParser:
     """Class that parses the response from the GitHub API and creates a response dictionary.
     """
+
     def __init__(self, starred_repos: list):
         self.starred_repos = starred_repos
         self.starred_repos_response: dict = {}
@@ -18,7 +19,8 @@ class StarredReposParser:
 
     def parse_starred_repositories(self):
         """Creating a list of StarredRepoModel objects and adding them to the response dictionary.
-        Null value in license field is replaced with an empty dictionary as per reference 3 (see README).
+        Null value in license field is replaced with an empty dictionary 
+        as per reference 3 (see README).
         """
         starred_repository_list = []
         for starred_repository in self.starred_repos:

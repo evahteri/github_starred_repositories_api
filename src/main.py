@@ -9,8 +9,9 @@ from services.config_validator import ConfigValidator
 from services.starred_repos_parser import StarredReposParser
 
 app = FastAPI()
-client_id = configuration.CLIENT_ID
-client_secret = configuration.CLIENT_SECRET
+CLIENT_ID = configuration.CLIENT_ID
+CLIENT_SECRET = configuration.CLIENT_SECRET
+
 
 @app.get("/callback")
 async def callback(code: str, state: str):
@@ -19,7 +20,8 @@ async def callback(code: str, state: str):
     to the get_repositories function to fetch the user's starred repositories.
     Args:
         code (str): The code returned by GitHub's OAuth page
-        state (str): The state returned by GitHub's OAuth page. Should match the local session state secret
+        state (str): The state returned by GitHub's OAuth page. 
+        Should match the local session state secret
     """
     if len(code) < 1 or len(state) < 1:
         raise HTTPException(
@@ -32,8 +34,8 @@ async def callback(code: str, state: str):
             "Accept": "application/json"
         }
         auth_data = {
-            "client_id": client_id,
-            "client_secret": client_secret,
+            "client_id": CLIENT_ID,
+            "client_secret": CLIENT_SECRET,
             "code": code
         }
         oauth_response = await client.post("https://github.com/login/oauth/access_token",
@@ -62,7 +64,7 @@ async def index():
         params = {
             "scope": scope,
             "state": state,
-            "client_id": client_id
+            "client_id": CLIENT_ID
         }
         response = await client.get("https://github.com/login/oauth/authorize", params=params)
         if response.status_code != 302:
@@ -87,7 +89,7 @@ async def get_repositories(token: str):
             "X-GitHub-Api-Version": "2022-11-28"
         }
         starred_repositories_response = await client.get("https://api.github.com/user/starred",
-                                                headers=headers)
+                                                         headers=headers)
         if starred_repositories_response.status_code != 200:
             raise HTTPException(status_code=starred_repositories_response.status_code,
                                 detail="Unable to reach the resource. Recheck parameters")
@@ -95,9 +97,9 @@ async def get_repositories(token: str):
                                   ).get_starred_repos_response()
 
 if __name__ == "__main__":
-    client_id = configuration.CLIENT_ID
-    client_secret = configuration.CLIENT_SECRET
-    if not ConfigValidator(client_id=client_id, client_secret=client_secret).validate_secrets():
+    CLIENT_ID = configuration.CLIENT_ID
+    CLIENT_SECRET = configuration.CLIENT_SECRET
+    if not ConfigValidator(client_id=CLIENT_ID, client_secret=CLIENT_SECRET).validate_secrets():
         raise ValueError(
             "Invalid configuration. Follow instructions in README to configure the application")
     uvicorn.run(app, host="0.0.0.0", port=8000)

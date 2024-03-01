@@ -2,6 +2,7 @@ import pytest
 from fastapi import HTTPException
 from main import get_repositories
 
+
 @pytest.mark.asyncio
 async def test_get_repositories():
     """The function should raise a http exception with status code 401

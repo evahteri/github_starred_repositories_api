@@ -1,6 +1,7 @@
 class ConfigValidator:
     """Class to validate the configuration file to avoid runtime errors
     """
+
     def __init__(self, client_id: str, client_secret: str):
         self.client_id = client_id
         self.client_secret = client_secret
