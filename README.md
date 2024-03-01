@@ -26,6 +26,12 @@ The API retrieves user's starred repositories from Github and displays the numbe
 - Run tests in root folder with ```pytest```
 - Run ```coverage run --branch -m pytest src && coverage report -m``` to get test coverage
 
+## Using the included Dockerfile
+- After adding the Client ID and Client Secret, run ```docker build -t <IMAGE_NAME> .```
+- Start the container with ```sudo docker run -d --name <CONTAINER_NAME> -p 8000:8000 <IMAGE_NAME>```
+- The API is now operating at ```http://localhost:8000/```
+- Shut down the API with ```docker kill <CONTAINER_NAME>```
+
 ## Example
 TODO
 
