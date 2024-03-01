@@ -33,7 +33,9 @@ The API retrieves user's starred repositories from Github and displays the numbe
 - Shut down the API with ```docker kill <CONTAINER_NAME>```
 
 ## Example
-TODO
+- GET request with a browser should result in something like this, if the user has starred repositories:
+
+![example_run](example_run.png)
 
 ## References/sources used for development
 
