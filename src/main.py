@@ -4,7 +4,6 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import RedirectResponse
 import session
 import configuration
-import test_configuration
 from services.random_string_generator import RandomStringGenerator
 from services.config_validator import ConfigValidator
 from services.starred_repos_parser import StarredReposParser
@@ -12,9 +11,6 @@ from services.starred_repos_parser import StarredReposParser
 app = FastAPI()
 client_id = configuration.CLIENT_ID
 client_secret = configuration.CLIENT_SECRET
-if session.ENVIRONMENT == "test":
-    client_id = test_configuration.CLIENT_ID
-    client_secret = test_configuration.CLIENT_SECRET
 
 @app.get("/callback")
 async def callback(code: str, state: str):

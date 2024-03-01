@@ -5,3 +5,5 @@ test_user_config.py
 __pycache__
 .pytest_cache
 .mypy_cache
+.coverage
+htmlcov

@@ -5,6 +5,7 @@ autopep8==2.0.4
 certifi==2024.2.2
 charset-normalizer==3.3.2
 click==8.1.7
+coverage==7.4.3
 dill==0.3.8
 exceptiongroup==1.2.0
 fastapi==0.110.0

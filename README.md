@@ -4,7 +4,6 @@ The API retrieves user's starred repositories from Github and displays the numbe
 
 ## Requirements
 - Python 3.10.12 or higher
-- pip 22.0.2 or higher
 
 ## Instructions
 
@@ -25,6 +24,7 @@ The API retrieves user's starred repositories from Github and displays the numbe
 
 ### Testing
 - Run tests in root folder with ```pytest```
+- Run ```coverage run --branch -m pytest src && coverage report -m``` to get test coverage
 
 ## Example
 TODO

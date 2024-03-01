@@ -3,9 +3,6 @@ from httpx import AsyncClient, ASGITransport
 from main import app
 import session
 
-session.ENVIRONMENT = "test"
-
-
 @pytest.mark.asyncio
 async def test_get_callback_response_code_different_states():
     session.SESSION_SECRET = "this_is_a_secret"

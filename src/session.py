@@ -1,2 +1,1 @@
 SESSION_SECRET = ""
-ENVIRONMENT = "production"

@@ -11,7 +11,6 @@ async def test_get_index_response_code():
         response = await ac.get("/")
         assert response.status_code == 307
 
-
 @pytest.mark.asyncio
 async def test_post_index_response_code():
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
