@@ -2,11 +2,16 @@ from models.starred_repo_model import StarredRepoModel
 
 
 class StarredReposParser:
+    """Class that parses the response from the GitHub API and creates a response dictionary.
+    """
     def __init__(self, starred_repos: list):
         self.starred_repos = starred_repos
         self.starred_repos_response: dict = {}
 
     def get_starred_repos_response(self) -> dict:
+        """Function to get the response dictionary.
+        response dictionary contains the number of starred repositories and their info in a list.
+        """
         self.count_starred_repos()
         self.parse_starred_repositories()
         return self.starred_repos_response

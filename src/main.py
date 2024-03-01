@@ -14,6 +14,13 @@ client_secret = configuration.CLIENT_SECRET
 
 @app.get("/callback")
 async def callback(code: str, state: str):
+    """Callback route to handle the response from GitHub's OAuth page.
+    If the code and state are valid, it will fetch an access token from GitHub's API and pass it
+    to the get_repositories function to fetch the user's starred repositories.
+    Args:
+        code (str): The code returned by GitHub's OAuth page
+        state (str): The state returned by GitHub's OAuth page. Should match the local session state secret
+    """
     if len(code) < 1 or len(state) < 1:
         raise HTTPException(
             status_code=422, detail="Unprocessable Entity. Invalid parameters")
@@ -65,18 +72,26 @@ async def index():
 
 
 async def get_repositories(token: str):
+    """Function get starred repositories from GitHub's API using the provided access token.
+
+    Args:
+        token (str): Unique access token for the user
+
+    Returns:
+        json: A JSON response containing the number of user's starred repositories and their info   
+        """
     async with httpx.AsyncClient() as client:
         headers = {
             "Accept": "application/vnd.github+json",
             "Authorization": "Bearer " + token,
             "X-GitHub-Api-Version": "2022-11-28"
         }
-        starred_repositories = await client.get("https://api.github.com/user/starred",
+        starred_repositories_response = await client.get("https://api.github.com/user/starred",
                                                 headers=headers)
-        if starred_repositories.status_code != 200:
-            raise HTTPException(status_code=starred_repositories.status_code,
+        if starred_repositories_response.status_code != 200:
+            raise HTTPException(status_code=starred_repositories_response.status_code,
                                 detail="Unable to reach the resource. Recheck parameters")
-        return StarredReposParser(starred_repos=starred_repositories.json()
+        return StarredReposParser(starred_repos=starred_repositories_response.json()
                                   ).get_starred_repos_response()
 
 if __name__ == "__main__":
