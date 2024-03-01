@@ -33,3 +33,4 @@ TODO
 
 - 1 [Creating async requests to external API's with FastAPI (geeksforgeeks)](https://www.geeksforgeeks.org/making-http-requests-from-a-fastapi-application-to-an-external-api/)
 - 2 [Generating random strings (geeksforgeeks)](https://www.geeksforgeeks.org/python-generate-random-string-of-given-length/)
+- 3 [JSON convention for empty values](https://stackoverflow.com/questions/9619852/what-is-the-convention-in-json-for-empty-vs-null)
